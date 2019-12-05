@@ -1,0 +1,105 @@
+.lists{
+    margin-bottom: 30px;
+}
+.lists li{
+    background-color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 5px;
+    display: flex;
+}
+.lists li:hover{
+    box-shadow: 0 2px 2px #868686;
+}
+.lists li.active{
+    background-color: #d8d8ff;
+}
+.lists li i, .colors i{
+    display: inline-block;
+    border-radius: 30px;
+    margin-right: 7px;
+}
+.lists li i{
+     width: 10px;
+     height: 10px;
+ }
+.color-red{
+    background-color: #ff000a;
+}
+.color-blue{
+    background-color: #000eff;
+}
+.color-green{
+    background-color: #00ff23;
+}
+.color-yellow{
+    background-color: #fffd00;
+}
+.listName{
+    flex: 1;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.listDeleteBtn{
+    color: #c8c8c8;
+}
+
+.windowAddTask{
+    border-radius: 10px;
+    width: 250px;
+    background-color: #fff;
+    box-shadow: 0 6px 15px #818181;
+    padding: 15px;
+    position: relative;
+}
+.windowAddTask .closeBtn{
+    position: absolute;
+    top: -10px;
+    right: -5px;
+    font-size: 20px;
+    background-color: #939393;
+    border-radius: 30px;
+    height: 26px;
+    width: 26px;
+    text-align: center;
+    cursor: pointer;
+}
+.windowAddTask input{
+    padding: 10px;
+    font-size: 15px;
+    width: 90%;
+    border-radius: 7px;
+    border: 1px solid #d8d8d8;
+}
+.windowAddTask button{
+    background-color: #c4ffc0;
+    border: none;
+    border-radius: 7px;
+    width: 100%;
+    font-size: 20px;
+    color: #0360ff;
+    padding: 5px 0;
+    cursor: pointer;
+}
+.windowAddTask button:hover{
+    background-color: rgba(36, 221, 0, 0.6);
+}
+.colors{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 30px;
+}
+.colors i{
+    border: 2px solid transparent;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+.colors i:hover{
+    border: 2px solid black;
+}
+.colors .active{
+    border: 2px solid black;
+}
