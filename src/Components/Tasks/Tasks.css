@@ -3,7 +3,6 @@
     text-align: center;
     margin-top: 60px;
     font-size: 40px;
-    color: #0360ff;
     border-bottom: 1px solid #d9d9d9;
 }
 .help{
@@ -22,6 +21,13 @@
     margin-top: 30px;
     color: #343434;
     font-size: 18px;
+}
+.innerTasks h2{
+    text-align: center;
+    color: #d9d9d9;
+}
+.newTaskBtn{
+    margin: 15px 0 0 7px;
 }
 .checkbox input{
     display: none;
@@ -61,4 +67,16 @@
 }
 .taskName{
 
+}
+.colorName-red{
+    color: #ff000a;
+}
+.colorName-blue{
+    color: #000eff;
+}
+.colorName-green{
+    color: #00ff23;
+}
+.colorName-yellow{
+    color: #fffd00;
 }

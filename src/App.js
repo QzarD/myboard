@@ -2,11 +2,14 @@ import React from 'react';
 import './App.css';
 import List from "./Components/List/List";
 import {connect} from "react-redux";
-import {addList, deleteList, renameList} from "./Redux/myboard-reducer";
+import {addList, addTask, deleteList, renameList} from "./Redux/myboard-reducer";
 import Tasks from "./Components/Tasks/Tasks";
 
-function App({lists, colors, addList, deleteList, tasks, renameList}) {
-    const [activeList, setActiveList]=React.useState('1');
+function App({lists, colors, addList, deleteList, tasks, renameList, addTask}) {
+    const [activeList, setActiveList]=React.useState('0');
+    if (!lists[activeList] && activeList>0){
+        setActiveList(activeList-1)
+    }
     return (
         <div className="App">
             <div className="innerApp">
@@ -27,8 +30,10 @@ function App({lists, colors, addList, deleteList, tasks, renameList}) {
                           ]}/>
                 </div>
                 <div className="tasks">
-                    {lists && activeList>=0 &&
-                    <Tasks renameList={renameList}
+                    {lists && lists[activeList] && activeList>=0 &&
+                    <Tasks addTask={addTask}
+                        renameList={renameList}
+                           colorName={colors.find(color=>color.id===lists[activeList].colorId).name}
                            list={lists[activeList]}
                            tasks={tasks.filter(task=> task.listId===lists[activeList].id)}/>}
                 </div>
@@ -45,4 +50,4 @@ const mapStateToProps = state => ({
     tasks: state.myboard.tasks,
 });
 
-export default connect(mapStateToProps, {addList, deleteList, renameList})(App);
+export default connect(mapStateToProps, {addList, deleteList, renameList, addTask})(App);

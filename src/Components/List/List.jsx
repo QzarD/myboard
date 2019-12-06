@@ -7,7 +7,9 @@ const List=({lists, isRemovable, addListBtn, colors, addList, deleteList, tasks,
     const [selectColor, setSelectColor]=useState('1');
     const [nameNewList, setNameNewList]=useState('');
     const onClickBtn=(index)=>{
-        setActiveList(index);
+        if (isRemovable){
+            setActiveList(index);
+        }
         setWindowAddTask(!windowAddTask);
         setNameNewList('');
         setSelectColor('1')
@@ -21,7 +23,7 @@ const List=({lists, isRemovable, addListBtn, colors, addList, deleteList, tasks,
     };
     const listDeleteBtn=(id)=>{
         if (window.confirm("Delete?")){
-            deleteList(id)
+            deleteList(id);
         }
     };
 
@@ -29,9 +31,9 @@ const List=({lists, isRemovable, addListBtn, colors, addList, deleteList, tasks,
         <>
             <ul className="lists">
                 {lists.map((list, index)=>(
-                    <li onClick={()=>onClickBtn(index)}
-                        key={index} className={list.id && list.id===activeList && 'active'}>
-                        <div className="listName">
+                    <li
+                        key={index} className={index===activeList ? 'active' : ''}>
+                        <div onClick={()=>onClickBtn(index)} className="listName">
                             {list.icon ? list.icon :
                                 <i className={`color-${list.color}`}/>
                             }

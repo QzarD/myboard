@@ -1,8 +1,10 @@
 const ADD_LIST='myboard/ADD_LIST';
 const DELETE_LIST='myboard/DELETE_LIST';
 const RENAME_LIST='myboard/RENAME_LIST';
+const ADD_TASK='myboard/ADD_TASK';
 
 let listId=3;
+let taskId=3;
 
 let initialState = {
     lists:[
@@ -38,6 +40,10 @@ export const myboardReducer = (state = initialState, action) => {
                 }
                 return list;
                 })};
+        case ADD_TASK:
+            taskId+=1;
+            return {...state, tasks:
+            [...state.tasks, {id:taskId, listId:action.listId, text: action.text, complete:false}]};
         default:
             return state
     }
@@ -46,3 +52,4 @@ export const myboardReducer = (state = initialState, action) => {
 export const addList=(name, colorId)=>({type:ADD_LIST, name, colorId});
 export const deleteList=(listId)=>({type:DELETE_LIST, listId});
 export const renameList=(listId, newName)=>({type:RENAME_LIST, listId, newName});
+export const addTask=(listId, text)=>({type:ADD_TASK, listId, text});
