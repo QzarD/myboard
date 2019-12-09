@@ -66,8 +66,28 @@
     display: flex;
 }
 .taskName{
-
+    flex: 1;
 }
+.deleteTaskBtn{
+    margin-right: 7px;
+    opacity: 0;
+    color: #939393;
+}
+.task:hover{
+    background-color: #f3f3f3;
+    transition: 0.15s ease-in-out;
+    border-radius: 5px;
+}
+.taskName:hover + .deleteTaskBtn{
+    opacity: 1;
+}
+.deleteTaskBtn:hover{
+    transition: 0.15s ease-in-out;
+    opacity: 1;
+    cursor: pointer;
+    color: #292929;
+}
+
 .colorName-red{
     color: #ff000a;
 }

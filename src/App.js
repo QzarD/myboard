@@ -2,11 +2,13 @@ import React from 'react';
 import './App.css';
 import List from "./Components/List/List";
 import {connect} from "react-redux";
-import {addList, addTask, deleteList, renameList} from "./Redux/myboard-reducer";
+import {addList, addTask, checkTask, deleteList, deleteTask, renameList} from "./Redux/myboard-reducer";
 import Tasks from "./Components/Tasks/Tasks";
+import {Route} from "react-router-dom";
 
-function App({lists, colors, addList, deleteList, tasks, renameList, addTask}) {
-    const [activeList, setActiveList]=React.useState('0');
+function App({lists, colors, addList, deleteList,
+                 tasks, renameList, addTask, checkTask, deleteTask}) {
+    const [activeList, setActiveList]=React.useState(null);
     if (!lists[activeList] && activeList>0){
         setActiveList(activeList-1)
     }
@@ -14,11 +16,14 @@ function App({lists, colors, addList, deleteList, tasks, renameList, addTask}) {
         <div className="App">
             <div className="innerApp">
                 <div className="menu">
-                    <List lists={[
-                        {id:'0',name: 'All tasks', color: ''}
+                    <List
+                        lists={[
+                        {active:true ,name: 'All tasks', color: ''}
                     ]}
                     />
-                    <List isRemovable activeList={activeList} setActiveList={setActiveList} tasks={tasks} deleteList={deleteList}
+                    <List
+                        isRemovable activeList={activeList}
+                          setActiveList={setActiveList} tasks={tasks} deleteList={deleteList}
                           lists={lists.map(list => {
                               list.color = colors.find(color => color.id === list.colorId).name;
                               return list;
@@ -30,12 +35,33 @@ function App({lists, colors, addList, deleteList, tasks, renameList, addTask}) {
                           ]}/>
                 </div>
                 <div className="tasks">
-                    {lists && lists[activeList] && activeList>=0 &&
-                    <Tasks addTask={addTask}
-                        renameList={renameList}
-                           colorName={colors.find(color=>color.id===lists[activeList].colorId).name}
-                           list={lists[activeList]}
-                           tasks={tasks.filter(task=> task.listId===lists[activeList].id)}/>}
+                    <Route exact path="/">
+                        {lists && lists.map(list=>(
+                            <Tasks deleteTask={deleteTask}
+                                   checkTask={checkTask}
+                                   addTask={addTask}
+                                   renameList={renameList}
+                                   colorName={colors.find(color=>color.id===list.colorId).name}
+                                   list={list}
+                                   withoutEmpty
+                                   tasks={tasks.filter(task=> task.listId===list.id)}
+                            />
+                        ))
+
+                        }
+                    </Route>
+                    <Route path="/list/:id">
+                        {lists && lists[activeList] && activeList>=0 &&
+                        <Tasks deleteTask={deleteTask}
+                               checkTask={checkTask}
+                               addTask={addTask}
+                               renameList={renameList}
+                               colorName={colors.find(color=>color.id===lists[activeList].colorId).name}
+                               list={lists[activeList]}
+                               tasks={tasks.filter(task=> task.listId===lists[activeList].id)}
+                        />
+                        }
+                    </Route>
                 </div>
             </div>
 
@@ -50,4 +76,4 @@ const mapStateToProps = state => ({
     tasks: state.myboard.tasks,
 });
 
-export default connect(mapStateToProps, {addList, deleteList, renameList, addTask})(App);
+export default connect(mapStateToProps, {addList, deleteList, renameList, addTask, checkTask, deleteTask})(App);

@@ -1,14 +1,21 @@
 import React, {useState} from "react";
 import './List.css';
+import {useHistory} from "react-router-dom";
 
 
-const List=({lists, isRemovable, addListBtn, colors, addList, deleteList, tasks, activeList, setActiveList})=>{
+const List=({lists, isRemovable, addListBtn, colors, addList,
+                deleteList, tasks, activeList, setActiveList})=>{
     const [windowAddTask, setWindowAddTask]=useState(false);
     const [selectColor, setSelectColor]=useState('1');
     const [nameNewList, setNameNewList]=useState('');
+    let history=useHistory();
     const onClickBtn=(index)=>{
         if (isRemovable){
             setActiveList(index);
+            history.push(`/list/${index}`)
+        }
+        if (!isRemovable){
+            history.push(`/`)
         }
         setWindowAddTask(!windowAddTask);
         setNameNewList('');
@@ -32,7 +39,8 @@ const List=({lists, isRemovable, addListBtn, colors, addList, deleteList, tasks,
             <ul className="lists">
                 {lists.map((list, index)=>(
                     <li
-                        key={index} className={index===activeList ? 'active' : ''}>
+                        key={index}
+                        className={index===activeList ? 'active' : ''}>
                         <div onClick={()=>onClickBtn(index)} className="listName">
                             {list.icon ? list.icon :
                                 <i className={`color-${list.color}`}/>

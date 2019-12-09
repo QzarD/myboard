@@ -1,7 +1,8 @@
 import React from 'react';
 import './Tasks.css';
 
-const Tasks = ({list, tasks, renameList, colorName, addTask}) => {
+const Tasks = ({list, tasks, renameList, colorName,
+                   addTask, checkTask, deleteTask, withoutEmpty}) => {
     const [showNewTaskInput, setShowNewTaskInput] = React.useState(false);
     const [textNewTaskInput, setTextNewTaskInput] = React.useState('');
     const changeNameList = () => {
@@ -15,6 +16,12 @@ const Tasks = ({list, tasks, renameList, colorName, addTask}) => {
             addTask(list.id,textNewTaskInput)
         }
     };
+    const deleteTaskBtn=(taskId)=>{
+        if (window.confirm('Delete task?')){
+            deleteTask(taskId)
+        }
+    };
+
     return (
         <>
             <h2 onClick={changeNameList} className={`nameTask colorName-${colorName}`}>{list.name}</h2>
@@ -23,18 +30,22 @@ const Tasks = ({list, tasks, renameList, colorName, addTask}) => {
                 {tasks.map(task => (
                     <div key={task.id} className="task">
                         <div className="checkbox">
-                            <input type="checkbox" id={`chek-${task.id}`}/>
+                            <input className="checkboxInput"
+                                type="checkbox"
+                                   checked={task.complete} onChange={()=>checkTask(task.id)}
+                                   id={`chek-${task.id}`}/>
                             <label htmlFor={`chek-${task.id}`}>
                                 <div className="checkboxIn">V</div>
                             </label>
                         </div>
                         <div className="taskName" key={task.id}>{task.text}</div>
+                        <div className="deleteTaskBtn" onClick={()=>deleteTaskBtn(task.id)}>X</div>
                     </div>
                 ))}
-                {!tasks.length &&
-                <h2>
+                {!withoutEmpty && !tasks.length &&
+                    <h2>
                     ***Tasks is empty***
-                </h2>
+                    </h2>
                 }
                 <div className="newTaskBtn">
                     {!showNewTaskInput
