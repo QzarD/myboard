@@ -18,7 +18,7 @@ function App({lists, colors, addList, deleteList,
                 <div className="menu">
                     <List
                         lists={[
-                        {active:true ,name: 'All tasks', color: ''}
+                        {active:'active' ,name: 'All tasks', color: ''}
                     ]}
                     />
                     <List

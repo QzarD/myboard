@@ -14,7 +14,7 @@ const List=({lists, isRemovable, addListBtn, colors, addList,
             setActiveList(index);
             history.push(`/list/${index}`)
         }
-        if (!isRemovable){
+        if (!isRemovable && !addListBtn){
             history.push(`/`)
         }
         setWindowAddTask(!windowAddTask);
@@ -40,7 +40,7 @@ const List=({lists, isRemovable, addListBtn, colors, addList,
                 {lists.map((list, index)=>(
                     <li
                         key={index}
-                        className={index===activeList ? 'active' : ''}>
+                        className={list.active ? list.active : activeList && activeList===index}>
                         <div onClick={()=>onClickBtn(index)} className="listName">
                             {list.icon ? list.icon :
                                 <i className={`color-${list.color}`}/>
