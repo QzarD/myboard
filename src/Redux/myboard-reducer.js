@@ -4,6 +4,7 @@ const RENAME_LIST='myboard/RENAME_LIST';
 const ADD_TASK='myboard/ADD_TASK';
 const CHECK_TASK='myboard/CHECK_TASK';
 const DELETE_TASK='myboard/DELETE_TASK';
+const RENAME_TASK='myboard/RENAME_TASK';
 
 let listId=3;
 let taskId=5;
@@ -33,7 +34,7 @@ export const myboardReducer = (state = initialState, action) => {
         case ADD_LIST:
             listId+=1;
             return {...state, lists:
-                    [...state.lists, {id:listId, name:action.name, colorId:action.colorId}]};
+                    [...state.lists, {id:String(listId), name:action.name, colorId:action.colorId}]};
         case DELETE_LIST:
             return {...state, lists:
                     [...state.lists.filter(list=>list.id!==action.listId)]};
@@ -42,7 +43,7 @@ export const myboardReducer = (state = initialState, action) => {
                 if (list.id===action.listId){
                     return {...list, name:action.newName}
                 }
-                return list;
+                return list
                 })};
         case ADD_TASK:
             taskId+=1;
@@ -53,11 +54,19 @@ export const myboardReducer = (state = initialState, action) => {
                 if (task.id===action.taskId){
                     return {...task, complete:!task.complete}
                 }
-                return task;
+                return task
                 })};
         case DELETE_TASK:
             return {...state, tasks:
             [...state.tasks.filter(task=>task.id!==action.taskId)]};
+        case RENAME_TASK:
+            return {...state, tasks:
+            state.tasks.map(task=>{
+                if (task.id===action.taskId){
+                    return {...task, text:action.text}
+                }
+                return task
+            })};
         default:
             return state
     }
@@ -69,3 +78,4 @@ export const renameList=(listId, newName)=>({type:RENAME_LIST, listId, newName})
 export const addTask=(listId, text)=>({type:ADD_TASK, listId, text});
 export const checkTask=(taskId)=>({type:CHECK_TASK, taskId});
 export const deleteTask=(taskId)=>({type:DELETE_TASK, taskId});
+export const renameTask=(taskId, text)=>({type:RENAME_TASK, taskId, text});

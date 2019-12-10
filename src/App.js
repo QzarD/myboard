@@ -2,33 +2,36 @@ import React from 'react';
 import './App.css';
 import List from "./Components/List/List";
 import {connect} from "react-redux";
-import {addList, addTask, checkTask, deleteList, deleteTask, renameList} from "./Redux/myboard-reducer";
+import {addList, addTask, checkTask, deleteList, deleteTask, renameList, renameTask} from "./Redux/myboard-reducer";
 import Tasks from "./Components/Tasks/Tasks";
 import {Route} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 
-function App({lists, colors, addList, deleteList,
-                 tasks, renameList, addTask, checkTask, deleteTask}) {
-    const [activeList, setActiveList]=React.useState(null);
-    if (!lists[activeList] && activeList>0){
-        setActiveList(activeList-1)
-    }
+function App({
+                 lists, colors, addList, deleteList, tasks, renameList,
+                 addTask, checkTask, deleteTask, renameTask
+             }) {
+    const [activeList, setActiveList] = React.useState(null);
+    let history=useHistory();
+
     return (
         <div className="App">
             <div className="innerApp">
                 <div className="menu">
-                    <List
+                    <List history={history}
                         lists={[
-                        {active:'active' ,name: 'All tasks', color: ''}
-                    ]}
+                            {active: history.location.pathname === '/', name: 'All tasks', color: ''}
+                        ]}
                     />
-                    <List
+                    <List history={history}
                         isRemovable activeList={activeList}
-                          setActiveList={setActiveList} tasks={tasks} deleteList={deleteList}
-                          lists={lists.map(list => {
-                              list.color = colors.find(color => color.id === list.colorId).name;
-                              return list;
-                          })}/>
-                    <List addListBtn
+                        setActiveList={setActiveList} tasks={tasks} deleteList={deleteList}
+                        lists={lists.map(list => {
+                            list.color = colors.find(color => color.id === list.colorId).name;
+                            return list;
+                        })}/>
+                    <List history={history}
+                        addListBtn
                           addList={addList} colors={colors}
                           lists={[
                               {name: 'Add list', icon: '+ '}
@@ -36,29 +39,33 @@ function App({lists, colors, addList, deleteList,
                 </div>
                 <div className="tasks">
                     <Route exact path="/">
-                        {lists && lists.map(list=>(
-                            <Tasks deleteTask={deleteTask}
+                        {lists && lists.map(list => (
+                            <Tasks key={list.id}
+                                   renameTask={renameTask}
+                                   deleteTask={deleteTask}
                                    checkTask={checkTask}
                                    addTask={addTask}
                                    renameList={renameList}
-                                   colorName={colors.find(color=>color.id===list.colorId).name}
+                                   colorName={colors.find(color => color.id === list.colorId).name}
                                    list={list}
                                    withoutEmpty
-                                   tasks={tasks.filter(task=> task.listId===list.id)}
+                                   tasks={tasks.filter(task => task.listId === list.id)}
                             />
                         ))
 
                         }
                     </Route>
                     <Route path="/list/:id">
-                        {lists && lists[activeList] && activeList>=0 &&
-                        <Tasks deleteTask={deleteTask}
+                        {lists && activeList &&
+                        <Tasks renameTask={renameTask}
+                               deleteTask={deleteTask}
                                checkTask={checkTask}
                                addTask={addTask}
                                renameList={renameList}
-                               colorName={colors.find(color=>color.id===lists[activeList].colorId).name}
-                               list={lists[activeList]}
-                               tasks={tasks.filter(task=> task.listId===lists[activeList].id)}
+                               colorName={colors.find(
+                                   color => color.id === activeList.colorId).name}
+                               list={activeList}
+                               tasks={tasks.filter(task => task.listId === activeList.id)}
                         />
                         }
                     </Route>
@@ -76,4 +83,5 @@ const mapStateToProps = state => ({
     tasks: state.myboard.tasks,
 });
 
-export default connect(mapStateToProps, {addList, deleteList, renameList, addTask, checkTask, deleteTask})(App);
+export default connect(mapStateToProps,
+    {addList, deleteList, renameList, addTask, checkTask, deleteTask, renameTask})(App);

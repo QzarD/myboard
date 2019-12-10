@@ -1,8 +1,8 @@
 import React from 'react';
 import './Tasks.css';
 
-const Tasks = ({list, tasks, renameList, colorName,
-                   addTask, checkTask, deleteTask, withoutEmpty}) => {
+const Tasks = ({list, tasks, renameList, colorName, addTask, checkTask,
+                   deleteTask, withoutEmpty, renameTask}) => {
     const [showNewTaskInput, setShowNewTaskInput] = React.useState(false);
     const [textNewTaskInput, setTextNewTaskInput] = React.useState('');
     const changeNameList = () => {
@@ -21,10 +21,17 @@ const Tasks = ({list, tasks, renameList, colorName,
             deleteTask(taskId)
         }
     };
+    const renameTaskClick=(id, text)=>{
+        const taskText=window.prompt('Rename task?', text);
+        if (taskText){
+            renameTask(id, taskText)
+        }
+    };
 
     return (
         <>
-            <h2 onClick={changeNameList} className={`nameTask colorName-${colorName}`}>{list.name}</h2>
+            <h2 onClick={changeNameList}
+                className={`nameTask colorName-${colorName}`}>{list.name}</h2>
             <span className="help">You can change it ;) click</span>
             <div className="innerTasks">
                 {tasks.map(task => (
@@ -38,7 +45,9 @@ const Tasks = ({list, tasks, renameList, colorName,
                                 <div className="checkboxIn">V</div>
                             </label>
                         </div>
-                        <div className="taskName" key={task.id}>{task.text}</div>
+                        <div className="taskName"
+
+                             onClick={()=>renameTaskClick(task.id, task.text)} key={task.id}>{task.text}</div>
                         <div className="deleteTaskBtn" onClick={()=>deleteTaskBtn(task.id)}>X</div>
                     </div>
                 ))}

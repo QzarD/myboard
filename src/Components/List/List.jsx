@@ -1,18 +1,16 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import './List.css';
-import {useHistory} from "react-router-dom";
+import classnames from "classnames";
 
 
 const List=({lists, isRemovable, addListBtn, colors, addList,
-                deleteList, tasks, activeList, setActiveList})=>{
+                deleteList, tasks, activeList, setActiveList, history})=>{
     const [windowAddTask, setWindowAddTask]=useState(false);
     const [selectColor, setSelectColor]=useState('1');
     const [nameNewList, setNameNewList]=useState('');
-    let history=useHistory();
-    const onClickBtn=(index)=>{
+    const onClickBtn=(list)=>{
         if (isRemovable){
-            setActiveList(index);
-            history.push(`/list/${index}`)
+            history.push(`/list/${list.id}`)
         }
         if (!isRemovable && !addListBtn){
             history.push(`/`)
@@ -33,6 +31,13 @@ const List=({lists, isRemovable, addListBtn, colors, addList,
             deleteList(id);
         }
     };
+    useEffect(()=>{
+        const listId=history.location.pathname.split('list/')[1];
+        if (lists && isRemovable){
+            const list=lists.find(list=>list.id===listId);
+            setActiveList(list)
+        }
+    }, [lists, history.location.pathname, isRemovable, setActiveList]);
 
     return(
         <>
@@ -40,8 +45,9 @@ const List=({lists, isRemovable, addListBtn, colors, addList,
                 {lists.map((list, index)=>(
                     <li
                         key={index}
-                        className={list.active ? list.active : activeList && activeList===index}>
-                        <div onClick={()=>onClickBtn(index)} className="listName">
+                        className={classnames(
+                            {active: activeList ? activeList.id===list.id : list.active})}>
+                        <div onClick={()=>onClickBtn(list)} className="listName">
                             {list.icon ? list.icon :
                                 <i className={`color-${list.color}`}/>
                             }
@@ -51,7 +57,8 @@ const List=({lists, isRemovable, addListBtn, colors, addList,
                             ` (${tasks.filter(task=> task.listId===list.id).length})`}
                         </div>
                         {isRemovable &&
-                            <div onClick={()=>listDeleteBtn(list.id)} className="listDeleteBtn">X</div>
+                            <div onClick={()=>listDeleteBtn(list.id)}
+                                 className="listDeleteBtn">X</div>
                         }
                     </li>
                 ))}
@@ -66,7 +73,8 @@ const List=({lists, isRemovable, addListBtn, colors, addList,
                         {colors.map(color=>(
                             <i onClick={()=>setSelectColor(color.id)}
                                key={color.id}
-                               className={`color-${color.name} ${selectColor===color.id ? "active" : ""}`}/>
+                               className={`color-${color.name} 
+                               ${selectColor===color.id ? "active" : ""}`}/>
                         ))}
                     </div>
                     <button onClick={addNewList}>Add</button>
