@@ -68,8 +68,13 @@ const List=({lists, isRemovable, addListBtn, colors, addList,
                     <div onClick={onClickBtn} className="closeBtn">X</div>
                     <input onChange={e=>setNameNewList(e.target.value)}
                            value={nameNewList}
+                           autoFocus={true}
+                           onKeyPress={event => {
+                               if (event.key === "Enter"){
+                                   addNewList()
+                               }}}
                            type="text" placeholder="Name of a new list"/>
-                    <div className="colors">
+                    <div className="colors" >
                         {colors.map(color=>(
                             <i onClick={()=>setSelectColor(color.id)}
                                key={color.id}

@@ -27,6 +27,9 @@ let initialState = {
         {id:'2', hex:'#000eff', name:'blue'},
         {id:'3', hex:'#00ff23', name:'green'},
         {id:'4', hex:'#fffd00', name:'yellow'},
+        {id:'5', hex:'#ff00ed', name:'purple'},
+        {id:'6', hex:'#ffffff', name:'white'},
+        {id:'7', hex:'#000000', name:'black'},
     ]
 };
 export const myboardReducer = (state = initialState, action) => {

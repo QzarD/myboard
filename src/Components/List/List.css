@@ -36,6 +36,15 @@
 .color-yellow{
     background-color: #fffd00;
 }
+.color-purple{
+    background-color: #ff00ed;
+}
+.color-black{
+    background-color: #000000;
+}
+.color-white{
+    background-color: #f4f4f4;
+}
 .listName{
     flex: 1;
     text-overflow: ellipsis;
@@ -89,7 +98,7 @@
 .colors{
     display: flex;
     justify-content: space-between;
-    padding: 10px 30px;
+    padding: 10px 5px;
 }
 .colors i{
     border: 2px solid transparent;
