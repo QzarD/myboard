@@ -51,7 +51,7 @@ const List=({lists, isRemovable, addListBtn, colors, addList,
                             {list.icon ? list.icon :
                                 <i className={`color-${list.color}`}/>
                             }
-                            {list.name}
+                            <span>{list.name}</span>
                             {isRemovable &&
                             tasks.filter(task=> task.listId===list.id).length>0 &&
                             ` (${tasks.filter(task=> task.listId===list.id).length})`}
