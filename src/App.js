@@ -39,9 +39,12 @@ function App({
                           addList={addList} colors={colors}
                           lists={[
                               {name: 'Add list', icon: (
-                                      <svg width="11" height="11" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                          <path d="M8 1V15" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                          <path d="M1 8H15" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                      <svg width="11" height="11" viewBox="0 0 16 16"
+                                           fill="none" xmlns="http://www.w3.org/2000/svg">
+                                          <path d="M8 1V15" stroke="#b9b9b9" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"/>
+                                          <path d="M1 8H15" stroke="#b9b9b9" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"/>
                                       </svg>
                                   )}
                           ]}/>
